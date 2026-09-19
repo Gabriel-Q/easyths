@@ -32,9 +32,9 @@ class ConditionSellOperation(BaseOperation[ConditionOrderParams]):
         main_window = self.get_main_window(wrapper_obj=True)
         # 先跳到其他页面，要是停留在国债逆回购的话，再次点击可能没反应
         main_window.type_keys("{F3}")
-        self.sleep(0.2)
+        self.sleep(0.4)
         self.switch_left_menus("条件单", "股价条件")
-        self.wait_for_pop_dialog(2.5)
+        self.wait_for_pop_dialog(3)
 
         pop_dialog_title, _ = self.get_pop_dialog()
         if pop_dialog_title != "ConditionToolBar":
@@ -57,18 +57,19 @@ class ConditionSellOperation(BaseOperation[ConditionOrderParams]):
         # 切换到卖出页签
         tab_control = self.get_control_with_children(document_panel, control_type="Tab")
         tab_control.children()[1].click_input()
-        self.sleep(0.3)
+        self.sleep(0.4)
 
         combox = self.get_control_with_children(document_panel, control_type="ComboBox")
         stock_edit = self.get_control_with_children(
             combox, control_type="Edit", title_contains="代码"
         )
         stock_edit.set_text(stock_code)
+        self.sleep(0.4)
         # 设置触发价格
         self.get_control_with_children(document_panel, control_type="Edit").set_text(
             target_price
         )
-        self.sleep(0.3)
+        self.sleep(0.8)
 
         # 下一步（按钮不可用说明没有持仓），模拟账户在非交易日也是灰色
         next_btn = self.get_control_with_children(
@@ -81,11 +82,11 @@ class ConditionSellOperation(BaseOperation[ConditionOrderParams]):
             )
         next_btn.click()
         # 等页面重绘渲染
-        self.sleep(0.5)
+        self.sleep(1)
 
         # 只能根据序号定位数量输入框
         document_panel.children(control_type="Edit")[2].set_text(str(params.quantity))
-        self.sleep(0.15)
+        self.sleep(0.7)
 
         # 选择全自动委托（模拟交易中该项为灰色）
         weituo_btn = self.get_control_with_children(
@@ -119,7 +120,7 @@ class ConditionSellOperation(BaseOperation[ConditionOrderParams]):
         ].invoke()
         self.sleep(0.2)
         expire_list_control.type_keys("{ENTER}")
-        self.sleep(0.2)
+        self.sleep(0.5)
 
         self.get_control_with_children(
             document_panel, control_type="Button", title="提交确认"

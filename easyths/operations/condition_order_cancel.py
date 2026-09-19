@@ -31,11 +31,11 @@ class ConditionOrderCancelOperation(BaseOperation[ConditionOrderCancelParams]):
         main_window = self.get_main_window(wrapper_obj=True)
         # 先跳到其他页面，要是停留在国债逆回购的话，再次点击可能没反应
         main_window.type_keys("{F3}")
-        self.sleep(0.2)
-        self.switch_left_menus("条件单", "条件单监控")
-        self.sleep(0.1)
-        main_window.type_keys("{F5}")
         self.sleep(0.3)
+        self.switch_left_menus("条件单", "条件单监控")
+        self.sleep(0.4)
+        main_window.type_keys("{F5}")
+        self.sleep(0.4)
         panel_AfxWnd140s_2 = self.get_control_with_children(
             main_window, control_type="Pane", auto_id="59648"
         ).children(class_name="AfxMDIFrame140s")[0]
@@ -75,7 +75,7 @@ class ConditionOrderCancelOperation(BaseOperation[ConditionOrderCancelParams]):
             type_tab_control, control_type="TabItem", title="未触发"
         )
         wcf_control.click_input()
-        self.sleep(0.3)
+        self.sleep(1)
 
         # 获取未触发的显示面板
         custom_pane = self.get_control_with_children(
@@ -105,14 +105,14 @@ class ConditionOrderCancelOperation(BaseOperation[ConditionOrderCancelParams]):
                 delete_count += 1
 
         # 等待按钮变颜色后点击删除
-        self.sleep(0.3)
+        self.sleep(0.6)
         delete_btn = self.get_control_with_children(
             chrome_render_win, control_type="Button", title="删除"
         )
         if delete_btn.is_enabled():
             delete_btn.click()
             # 等待确认弹窗
-            self.sleep(0.5)
+            self.sleep(0.8)
             confirm_pop = self.get_control_with_children(
                 chrome_render_win, control_type="Custom", title="提示"
             )
