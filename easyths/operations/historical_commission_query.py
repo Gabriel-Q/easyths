@@ -29,7 +29,9 @@ class HistoricalCommissionQueryOperation(BaseOperation[HistoricalQueryParams]):
             filled_quantity=record["成交数量"],
             price=record["委托价格"],
             avg_fill_price=record["成交均价"],
-            cancelled_quantity=record["撤销数量"],
+            cancelled_quantity=record.get("撤销数量")
+            or record.get("撤消数量")
+            or record.get("撤单数量"),
             contract_no=record["合同编号"],
             market=record["交易市场"],
         )
