@@ -179,11 +179,10 @@ def test_funds_result_numeric():
     assert dumped["daily_profit_ratio"] == 0.57
 
 
-def test_funds_result_daily_profit_fields_optional():
-    """旧版客户端无当日盈亏控件时两字段缺省，校验不报错。"""
+def test_funds_result_optional_fields():
+    """客户端版本无冻结金额/当日盈亏控件时字段缺省，校验不报错。"""
     raw = {
         "balance": "12,345.67",
-        "frozen_amount": "0.00",
         "market_value": "10380.00",
         "total_assets": "22725.67",
         "available_amount": "12345.67",
@@ -191,6 +190,7 @@ def test_funds_result_daily_profit_fields_optional():
         "holding_profit": "180.00",
     }
     dumped = FundsResult.model_validate(raw).model_dump()
+    assert dumped["frozen_amount"] is None
     assert dumped["daily_profit"] is None
     assert dumped["daily_profit_ratio"] is None
 

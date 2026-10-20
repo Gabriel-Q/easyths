@@ -167,7 +167,9 @@ class FundsResult(ResultModel):
     """账户资金信息（单位：元，数值型；无该项业务时为 null）"""
 
     balance: Num = Field(description="资金余额")
-    frozen_amount: Num = Field(description="冻结金额")
+    frozen_amount: Num = Field(
+        default=None, description="冻结金额；客户端版本无该控件时为 null"
+    )
     market_value: Num = Field(description="股票市值")
     total_assets: Num = Field(description="总资产")
     available_amount: Num = Field(description="可用金额")
